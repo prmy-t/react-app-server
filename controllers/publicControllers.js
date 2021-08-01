@@ -50,6 +50,7 @@ exports.postCreatAppointment = (req, res) => {
   const vehicleType = req.body.vehicleType;
   const engineType = req.body.engineType;
   const description = req.body.description;
+
   Appointment.find({ date, email })
     .then((data) => {
       if (data.length > 0) {
@@ -70,6 +71,7 @@ exports.postCreatAppointment = (req, res) => {
                 contact,
                 description,
                 date,
+                status: "Booked",
               });
               appointment
                 .save()
@@ -97,12 +99,13 @@ exports.getAppointments = (req, res) => {
 };
 
 exports.verify = (req, res, next) => {
+  console.log("hey");
   const token = req.headers["authorization"];
   let verified = "";
-  console.log(token);
+  console.log("token: > ", token);
   if (token !== "undefined") {
     verified = jwt.verify(token, process.env.JWT_KEY);
-    console.log(verified);
+    console.log("verified: >", verified);
     if (verified) {
       req.token = token;
       return next();

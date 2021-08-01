@@ -9,6 +9,7 @@ const appointmentSchema = mongoose.Schema({
   engineType: String,
   contact: Number,
   description: String,
+  status: String,
 });
 
 module.exports = mongoose.model("Appointment", appointmentSchema);
