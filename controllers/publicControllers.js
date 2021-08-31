@@ -91,8 +91,10 @@ exports.postCreatAppointment = (req, res) => {
 exports.getAppointments = (req, res) => {
   const token = req.headers["authorization"];
   const email = jwt.verify(token, process.env.JWT_KEY);
+  console.log(email);
   Appointment.find({ email })
     .then((appo) => {
+      console.log(appo);
       res.send(appo);
     })
     .catch((err) => console.log(err));
