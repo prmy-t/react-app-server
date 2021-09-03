@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const Appointment = require("../models/appointment");
-const url = require("url");
 const jwt = require("jsonwebtoken");
+
 exports.postSignup = (req, res) => {
   const fName = req.body.fName;
   const lName = req.body.lName;
@@ -91,23 +91,21 @@ exports.postCreatAppointment = (req, res) => {
 exports.getAppointments = (req, res) => {
   const token = req.headers["authorization"];
   const email = jwt.verify(token, process.env.JWT_KEY);
-  console.log(email);
+
   Appointment.find({ email })
     .then((appo) => {
-      console.log(appo);
       res.send(appo);
     })
     .catch((err) => console.log(err));
 };
 
 exports.verify = (req, res, next) => {
-  console.log("hey");
   const token = req.headers["authorization"];
   let verified = "";
-  console.log("token: > ", token);
+
   if (token !== "undefined") {
     verified = jwt.verify(token, process.env.JWT_KEY);
-    console.log("verified: >", verified);
+
     if (verified) {
       req.token = token;
       return next();
